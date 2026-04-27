@@ -7,7 +7,7 @@ import {
   getServices,
   updateService,
 } from "../controllers/serviceController.js";
-const upload = multer({ dest: "/temp" });
+const upload = multer({ dest: "uploads/" });
 const serviceRouter = express.Router();
 serviceRouter.get("/", getServices);
 serviceRouter.post("/", upload.single("image"), createService);
