@@ -10,7 +10,7 @@ import {
   updateDoctor,
 } from "../controllers/doctorController.js";
 import doctorAuth from "../middlewares/doctorAuth.js";
-const upload = multer({ dest: "/temp" });
+const upload = multer({ dest: "temp/" });
 const doctorRouter = express.Router();
 doctorRouter.get("/", getDoctors);
 doctorRouter.post("/login", doctorLogin);
