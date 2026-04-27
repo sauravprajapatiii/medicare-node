@@ -9,7 +9,11 @@ import appointmentRouter from "./routes/appointmentRouter.js";
 import serviceAppointmentRouter from "./routes/serviceAppointmentRouter.js";
 const app = express();
 const port = 4000;
-const allowedOrigin = ["http://localhost:5173", "http://localhost:5174"];
+const allowedOrigin = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "https://medicare-full.vercel.app",
+];
 //MiddleWares
 app.use(
   cors({
