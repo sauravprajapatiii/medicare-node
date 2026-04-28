@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
 const ADMIN_PASSWORD_HASH = await bcrypt.hash("admin123", 10);
+console.log(ADMIN_PASSWORD_HASH);
+
 // process.env.ADMIN_PASSWORD_HASH ||
 // "$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi"; // hash of 'admin123'
 const JWT_SECRET =
