@@ -7,13 +7,16 @@ import doctorRouter from "./routes/doctorRouter.js";
 import serviceRouter from "./routes/serviceRouter.js";
 import appointmentRouter from "./routes/appointmentRouter.js";
 import serviceAppointmentRouter from "./routes/serviceAppointmentRouter.js";
+import adminRouter from "./routes/adminRouter.js";
 const app = express();
 const port = 4000;
-const allowedOrigin = [
-  "http://localhost:5173",
-  "http://localhost:5174",
-  "https://medicare-full.vercel.app",
-];
+const clientUrl = process.env.CLIENT_URL;
+const allowedOrigin = clientUrl
+  ? clientUrl
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)
+  : [];
 //MiddleWares
 app.use(
   cors({
@@ -40,9 +43,10 @@ app.use("/api/doctors", doctorRouter);
 app.use("/api/services", serviceRouter);
 app.use("/api/appointments", appointmentRouter);
 app.use("/api/service-appointments", serviceAppointmentRouter);
+app.use("/api/admin", adminRouter);
 app.get("/", (req, res) => {
   res.send("API Working");
 });
 app.listen(port, () => {
-  console.log(`server started on http://localhost:${port}`);
+  console.log(`Server started on port ${port}`);
 });
