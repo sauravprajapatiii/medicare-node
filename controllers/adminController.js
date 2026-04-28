@@ -24,7 +24,11 @@ export const adminLogin = async (req, res) => {
         message: "Username and password are required",
       });
     }
+    console.log("Entered username:", username);
+    console.log("Expected username:", ADMIN_USERNAME);
 
+    const isMatch = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
+    console.log("Password match:", isMatch);
     if (username !== ADMIN_USERNAME) {
       return res.status(401).json({
         success: false,
