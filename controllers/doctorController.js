@@ -308,8 +308,18 @@ export async function updateDoctor(req, res) {
       existing.imageUrl = body.imageUrl;
     }
 
-    if (body.schedule) existing.schedule = parseScheduleInput(body.schedule);
-
+    // if (body.schedule) existing.schedule = parseScheduleInput(body.schedule);
+    if (body.schedule !== undefined) {
+      try {
+        existing.schedule = parseScheduleInput(body.schedule);
+      } catch (e) {
+        console.error("Schedule parse error:", e);
+        return res.status(400).json({
+          success: false,
+          message: "Invalid schedule format",
+        });
+      }
+    }
     const updatable = [
       "name",
       "specialization",
