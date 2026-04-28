@@ -333,10 +333,25 @@ export async function updateDoctor(req, res) {
       "patients",
       "rating",
     ];
+    // updatable.forEach((k) => {
+    //   if (body[k] !== undefined) existing[k] = body[k];
+    // });
     updatable.forEach((k) => {
-      if (body[k] !== undefined) existing[k] = body[k];
+      if (body[k] !== undefined) {
+        if (["fee", "rating", "patients", "success"].includes(k)) {
+          const num = Number(body[k]);
+          if (isNaN(num)) {
+            return res.status(400).json({
+              success: false,
+              message: `${k} must be a number`,
+            });
+          }
+          existing[k] = num;
+        } else {
+          existing[k] = body[k];
+        }
+      }
     });
-
     if (body.email && body.email !== existing.email) {
       const other = await Doctor.findOne({ email: body.email.toLowerCase() });
       if (other && other._id.toString() !== id)
