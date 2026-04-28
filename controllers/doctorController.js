@@ -81,38 +81,12 @@ export async function createDoctor(req, res) {
     let imageUrl = req.body.imageUrl || null;
     let imagePublicId = req.body.imagePublicId || null;
     if (req.file?.path) {
-      try {
-        const uploaded = await uploadToCloudinary(req.file.path, "doctors");
-
-        if (!uploaded) {
-          throw new Error("Cloudinary upload failed");
-        }
-
-        existing.imageUrl =
-          uploaded.secure_url || uploaded.url || existing.imageUrl;
-
-        existing.imagePublicId =
-          uploaded.public_id || uploaded.publicId || existing.imagePublicId;
-      } catch (err) {
-        console.error("🔥 CLOUDINARY ERROR:", err);
-        return res.status(500).json({
-          success: false,
-          message: "Image upload failed",
-        });
-      }
+      const uploaded = await uploadToCloudinary(req.file.path, "doctors");
+      imageUrl = uploaded?.secure_url || uploaded?.url;
+      imagePublicId =
+        uploaded?.public_id || uploaded?.publicId || imagePublicId;
     }
-    // const schedule = parseScheduleInput(req.body.schedule);
-    if (body.schedule !== undefined) {
-      try {
-        existing.schedule = parseScheduleInput(body.schedule);
-      } catch (e) {
-        console.error("🔥 schedule error:", e);
-        return res.status(400).json({
-          success: false,
-          message: "Invalid schedule format",
-        });
-      }
-    }
+    const schedule = parseScheduleInput(req.body.schedule);
     const hashedpassword = await bcrypt.hash(password, 10);
     const doc = new Doctor({
       email: emailLC,
