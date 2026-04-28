@@ -81,12 +81,38 @@ export async function createDoctor(req, res) {
     let imageUrl = req.body.imageUrl || null;
     let imagePublicId = req.body.imagePublicId || null;
     if (req.file?.path) {
-      const uploaded = await uploadToCloudinary(req.file.path, "doctors");
-      imageUrl = uploaded?.secure_url || uploaded?.url;
-      imagePublicId =
-        uploaded?.public_id || uploaded?.publicId || imagePublicId;
+      try {
+        const uploaded = await uploadToCloudinary(req.file.path, "doctors");
+
+        if (!uploaded) {
+          throw new Error("Cloudinary upload failed");
+        }
+
+        existing.imageUrl =
+          uploaded.secure_url || uploaded.url || existing.imageUrl;
+
+        existing.imagePublicId =
+          uploaded.public_id || uploaded.publicId || existing.imagePublicId;
+      } catch (err) {
+        console.error("🔥 CLOUDINARY ERROR:", err);
+        return res.status(500).json({
+          success: false,
+          message: "Image upload failed",
+        });
+      }
     }
-    const schedule = parseScheduleInput(req.body.schedule);
+    // const schedule = parseScheduleInput(req.body.schedule);
+    if (body.schedule !== undefined) {
+      try {
+        existing.schedule = parseScheduleInput(body.schedule);
+      } catch (e) {
+        console.error("🔥 schedule error:", e);
+        return res.status(400).json({
+          success: false,
+          message: "Invalid schedule format",
+        });
+      }
+    }
     const hashedpassword = await bcrypt.hash(password, 10);
     const doc = new Doctor({
       email: emailLC,
@@ -276,6 +302,9 @@ export async function updateDoctor(req, res) {
   try {
     const { id } = req.params;
     const body = req.body || {};
+    console.log("🔥 UPDATE HIT");
+    console.log("body:", req.body);
+    console.log("file:", req.file);
 
     if (!req.doctor || String(req.doctor._id || req.doctor.id) !== String(id)) {
       return res.status(403).json({
@@ -428,7 +457,8 @@ export async function toggleAvailibility(req, res) {
       doc.availability =
         doc.availability === "Available" ? "Unavailable" : "Available";
     doc.save();
-    const out = normalizeDocForClient(doc.toObject());
+    // const out = normalizeDocForClient(doc.toObject());
+    const out = normalizeDocForClient(existing?.toObject?.() || existing);
     delete out.password;
     return res.json({ success: true, data: out });
   } catch (err) {
