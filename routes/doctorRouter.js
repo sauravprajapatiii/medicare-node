@@ -21,7 +21,7 @@ doctorRouter.post("/:id/toggle-availibility", doctorAuth, toggleAvailibility);
 doctorRouter.put("/:id", doctorAuth, upload.single("image"), updateDoctor);
 doctorRouter.put(
   "/:id",
-  doctorAuth,
+
   (req, res, next) => {
     upload.single("image")(req, res, function (err) {
       if (err) {
