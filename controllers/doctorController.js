@@ -374,8 +374,12 @@ export async function updateDoctor(req, res) {
     delete out.password;
     return res.json({ success: true, data: out });
   } catch (err) {
-    console.error("updateDoctor error:", err);
-    return res.status(500).json({ success: false, message: "Server error" });
+    console.error("🔥 FULL updateDoctor ERROR:", err);
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+      stack: err.stack, // 👈 temporary (remove in production)
+    });
   }
 }
 //to delete doctor
