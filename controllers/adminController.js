@@ -2,7 +2,9 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-const ADMIN_PASSWORD_HASH = await bcrypt.hash("admin123", 10);
+const ADMIN_PASSWORD_HASH =
+  "$2b$10$EZcx48u5ZlbjmokmeF59Ju5UBwKkZewWB2BrFJ6Bdp1jxq2JrC4CS";
+// const ADMIN_PASSWORD_HASH = await bcrypt.hash("admin123", 10);
 console.log(ADMIN_PASSWORD_HASH);
 
 // process.env.ADMIN_PASSWORD_HASH ||
