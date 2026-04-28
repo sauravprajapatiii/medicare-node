@@ -24,7 +24,7 @@ app.use(
       if (!origin) return callback(null, true);
       if (
         allowedOrigin.includes(origin) ||
-        origin === "http://localhost:5173"
+        origin === "medicare-full-6da4zclwj-saurav8.vercel.app"
       ) {
         return callback(null, true);
       }
