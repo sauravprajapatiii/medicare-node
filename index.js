@@ -24,7 +24,7 @@ app.use(
       if (!origin) return callback(null, true);
       if (
         allowedOrigin.includes(origin) ||
-        origin === "medicare-full-6da4zclwj-saurav8.vercel.app"
+        origin === "https://medicare-full.vercel.app"
       ) {
         return callback(null, true);
       }
