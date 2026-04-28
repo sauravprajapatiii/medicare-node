@@ -21,7 +21,6 @@ if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD_HASH) {
 export const adminLogin = async (req, res) => {
   try {
     const { username, password } = req.body;
-
     if (!username || !password) {
       return res.status(400).json({
         success: false,
@@ -30,7 +29,6 @@ export const adminLogin = async (req, res) => {
     }
     console.log("Entered username:", username);
     console.log("Expected username:", ADMIN_USERNAME);
-
     const isMatch = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
     console.log("Password match:", isMatch);
     if (username !== ADMIN_USERNAME) {
