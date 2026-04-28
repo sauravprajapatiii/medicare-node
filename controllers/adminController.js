@@ -36,7 +36,7 @@ export const adminLogin = async (req, res) => {
       });
     }
 
-    const isMatch = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
+    // const isMatch = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
     if (!isMatch) {
       return res.status(401).json({
         success: false,
