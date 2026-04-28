@@ -335,12 +335,9 @@ export async function updateDoctor(req, res) {
           .json({ success: false, message: "Email already in use" });
       existing.email = body.email.toLowerCase();
     }
-    // const hashedPass = await bcrypt.hash(body.password, 10);
-    // if (body.password) existing.password = hashedPass;
-    if (body.password) {
-      const hashedPass = await bcrypt.hash(body.password, 10);
-      existing.password = hashedPass;
-    }
+    const hashedPass = await bcrypt.hash(body.password, 10);
+    if (body.password) existing.password = hashedPass;
+
     await existing.save();
 
     const out = normalizeDocForClient(existing.toObject());
