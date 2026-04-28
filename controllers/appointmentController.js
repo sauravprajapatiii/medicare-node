@@ -8,7 +8,7 @@ dotenv.config();
 const STRIPE_KEY = process.env.STRIPE_SECRET_KEY;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const MAJOR_ADMIN_ID = process.env.MAJOR_ADMIN_ID || null;
-const stipe = STRIPE_KEY
+const stripe = STRIPE_KEY
   ? new Stripe(STRIPE_KEY, { apiVersion: "2026-03-25.dahlia" })
   : null;
 const safeNumber = (v) => {
